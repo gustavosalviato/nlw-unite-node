@@ -1,0 +1,8 @@
+POST http://localhost:3333/event
+Content-Type: application/json
+
+{
+  "title": "nlw unite", 
+  "details" : null,
+  "maximumAttendees": 20
+}
