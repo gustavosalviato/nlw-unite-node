@@ -2,7 +2,7 @@ POST http://localhost:3333/event
 Content-Type: application/json
 
 {
-  "title": "nlw unite", 
+  "title": "nlw unite 2", 
   "details" : null,
   "maximumAttendees": 20
 }
