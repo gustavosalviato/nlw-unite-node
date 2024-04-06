@@ -16,6 +16,7 @@ import { getEvent } from "@/http/controllers/get-event";
 import { getAttendeeBadge } from "@/http/controllers/get-attendee-badge";
 import { checkIn } from "@/http/controllers/check-in";
 import { getEventAttendees } from "@/http/controllers/get-event-attendees";
+import { errorHandler } from "@/error-handler";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -46,6 +47,8 @@ app.register(getEvent);
 app.register(getAttendeeBadge);
 app.register(checkIn);
 app.register(getEventAttendees);
+
+app.setErrorHandler(errorHandler);
 
 app
   .listen({
