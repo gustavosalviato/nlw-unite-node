@@ -11,6 +11,18 @@ export async function getEvent(app: FastifyInstance) {
         params: z.object({
           eventId: z.string().uuid(),
         }),
+        response: {
+          200: z.object({
+            event: z.object({
+              id: z.string().uuid(),
+              title: z.string(),
+              details: z.string().nullable(),
+              maximumAttendees: z.number().nullable(),
+              slug: z.string(),
+              attendeesAmount: z.number().int(),
+            }),
+          }),
+        },
       },
     },
     async (request, reply) => {
@@ -21,6 +33,7 @@ export async function getEvent(app: FastifyInstance) {
           id: true,
           title: true,
           details: true,
+          slug: true,
           maximumAttendees: true,
           _count: {
             select: {
@@ -33,7 +46,7 @@ export async function getEvent(app: FastifyInstance) {
         },
       });
 
-      if (!event) {
+      if (event === null) {
         throw new Error("Event not found.");
       }
 
@@ -41,9 +54,10 @@ export async function getEvent(app: FastifyInstance) {
         event: {
           id: event.id,
           title: event.title,
+          slug: event.slug,
           details: event.details,
           maximumAttendees: event.maximumAttendees,
-          attendeesAmont: event._count.attendees,
+          attendeesAmount: event._count.attendees,
         },
       });
     }
