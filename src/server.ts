@@ -8,6 +8,7 @@ import {
 
 import { createEvent } from "@/http/controllers/create-event";
 import { registerForEvent } from "@/http/controllers/register-for-event";
+import { getEvent } from "@/http/controllers/get-event";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -16,6 +17,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.register(createEvent);
 app.register(registerForEvent);
+app.register(getEvent);
 
 app
   .listen({
