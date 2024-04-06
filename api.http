@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3333/attendee/16a9ce0d-05c7-4558-8e60-0aa5a4ad51ed/register
+POST http://localhost:3333/attendee/ea35b095-31d1-461d-b872-6cb4e0cace1a/register
 Content-Type: application/json
 
 {
@@ -22,4 +22,8 @@ GET http://localhost:3333/event/16a9ce0d-05c7-4558-8e60-0aa5a4ad51ed
 
 
 ###
-GET http://localhost:3333/attendee/1/badge
+GET http://localhost:3333/attendee/2/badge
+
+
+###
+GET http://localhost:3333/attendees/2/checkIn
