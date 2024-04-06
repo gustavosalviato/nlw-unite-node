@@ -10,15 +10,22 @@ import {
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
 
+import fastifyCors from "@fastify/cors";
+
 import { createEvent } from "@/http/controllers/create-event";
 import { registerForEvent } from "@/http/controllers/register-for-event";
 import { getEvent } from "@/http/controllers/get-event";
 import { getAttendeeBadge } from "@/http/controllers/get-attendee-badge";
 import { checkIn } from "@/http/controllers/check-in";
 import { getEventAttendees } from "@/http/controllers/get-event-attendees";
-import { errorHandler } from "@/error-handler";
+
+import { errorHandler } from "./error-handler";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.register(fastifyCors, {
+  origin: "*",
+});
 
 app.register(fastifySwagger, {
   swagger: {
