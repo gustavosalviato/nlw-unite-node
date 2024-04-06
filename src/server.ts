@@ -1,10 +1,14 @@
 import fastify from "fastify";
 
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
+
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
 
 import { createEvent } from "@/http/controllers/create-event";
 import { registerForEvent } from "@/http/controllers/register-for-event";
@@ -14,6 +18,24 @@ import { checkIn } from "@/http/controllers/check-in";
 import { getEventAttendees } from "@/http/controllers/get-event-attendees";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.register(fastifySwagger, {
+  swagger: {
+    produces: ["application/json"],
+    consumes: ["application/json"],
+    info: {
+      title: "pass.in",
+      description:
+        "Especificações da API para o back-end da aplicação pass.in construída durante o NLW Unite da Rocketseat.",
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUI, {
+  prefix: "/docs",
+});
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
@@ -28,6 +50,7 @@ app.register(getEventAttendees);
 app
   .listen({
     port: 3333,
+    host: "0.0.0.0",
   })
   .then(() => {
     console.log("http server running");
