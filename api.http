@@ -6,3 +6,13 @@ Content-Type: application/json
   "details" : null,
   "maximumAttendees": 20
 }
+
+###
+
+POST http://localhost:3333/attendee/16a9ce0d-05c7-4558-8e60-0aa5a4ad51ed/register
+Content-Type: application/json
+
+{
+  "name": "Gustavo", 
+  "email" : "gustavo@codifica.dev"
+}
