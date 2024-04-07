@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma"
+import { prisma } from '@/lib/prisma'
 
 prisma
 async function seed() {
@@ -9,7 +9,7 @@ async function seed() {
       slug: 'unite-summit',
       details: 'Um evento p/ devs apaixonados(as) por código!',
       maximumAttendees: 120,
-    }
+    },
   })
 }
 

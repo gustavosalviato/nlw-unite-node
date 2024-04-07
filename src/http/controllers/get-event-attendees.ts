@@ -1,22 +1,22 @@
-import { prisma } from "@/lib/prisma";
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { eventNames } from "process";
-import { z } from "zod";
+import { prisma } from '@/lib/prisma'
+import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { eventNames } from 'process'
+import { z } from 'zod'
 
 export async function getEventAttendees(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/events/:eventId/attendees",
+    '/events/:eventId/attendees',
     {
       schema: {
-        summary: "Get event attendees",
-        tags: ["attendees"],
+        summary: 'Get event attendees',
+        tags: ['attendees'],
         params: z.object({
           eventId: z.string().uuid(),
         }),
         querystring: z.object({
           query: z.string().nullish(),
-          pageIndex: z.string().nullish().default("0").transform(Number),
+          pageIndex: z.string().nullish().default('0').transform(Number),
         }),
         response: {
           200: z.object({
@@ -27,7 +27,7 @@ export async function getEventAttendees(app: FastifyInstance) {
                 email: z.string().email(),
                 createdAt: z.date(),
                 checkInAt: z.date().nullable(),
-              })
+              }),
             ),
             total: z.number().int(),
           }),
@@ -35,8 +35,8 @@ export async function getEventAttendees(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { eventId } = request.params;
-      const { query, pageIndex } = request.query;
+      const { eventId } = request.params
+      const { query, pageIndex } = request.query
 
       const [attendees, total] = await Promise.all([
         prisma.attendee.findMany({
@@ -64,7 +64,7 @@ export async function getEventAttendees(app: FastifyInstance) {
           take: 10,
           skip: pageIndex * 10,
           orderBy: {
-            createdAt: "desc",
+            createdAt: 'desc',
           },
         }),
 
@@ -78,10 +78,10 @@ export async function getEventAttendees(app: FastifyInstance) {
               }
             : { eventId },
         }),
-      ]);
+      ])
 
       return reply.send({
-        attendees: attendees.map((attendee) => ({
+        attendees: attendees.map(attendee => ({
           id: attendee.id,
           name: attendee.name,
           email: attendee.email,
@@ -89,7 +89,7 @@ export async function getEventAttendees(app: FastifyInstance) {
           checkInAt: attendee.checkIn?.createdAt ?? null,
         })),
         total,
-      });
-    }
-  );
+      })
+    },
+  )
 }
